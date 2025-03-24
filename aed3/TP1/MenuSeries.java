@@ -261,6 +261,15 @@ public class MenuSeries {
         System.out.printf("Streaming...:   %s%n", serie.streaming);
         System.out.printf("Ano de lancamento: %s%n", serie.anoLancamento);
         System.out.println("----------------------");
+
     }
-}
+    }
+    public void menuEpisodioSerie(int serie){
+        System.out.print("\nDeseja adicionar episódio? (S/N) ");
+        char resp = console.nextLine().charAt(0);
+
+        if(resp == 'S' || resp == 's'){
+            MenuEpisodios menuEpisodio(serie);
+        }
+    }
 }
