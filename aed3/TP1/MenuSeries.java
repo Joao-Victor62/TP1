@@ -268,6 +268,7 @@ public class MenuSeries {
         System.out.print("\nDeseja adicionar episódio? (S/N) ");
         char resp = console.nextLine().charAt(0);
 
+
         if(resp == 'S' || resp == 's'){
             MenuEpisodios menuEpisodio(serie);
         }
