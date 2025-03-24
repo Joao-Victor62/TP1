@@ -19,7 +19,7 @@ public static void main(String[] args) {
             System.out.println("-------");
             System.out.println("> Início");
             System.out.println("\n1 - Series");
-            System.out.println("2 - Series");
+            System.out.println("2 - Episodios");
             System.out.println("0 - Sair");
 
             System.out.print("\nOpção: ");
