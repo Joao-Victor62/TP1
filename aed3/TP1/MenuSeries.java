@@ -67,6 +67,7 @@ public class MenuSeries {
                 Serie serie = arqSeries.read(id);  // Chama o método de leitura da classe Arquivo
                 if (serie != null) {
                     mostrarSerie(serie);  // Exibe os detalhes do cliente encontrado
+                    menuEpisodioSerie(id);
                 } else {
                     System.out.println("Serie não encontrado.");
                 }
@@ -77,6 +78,7 @@ public class MenuSeries {
         } else {
             System.out.println("ID inválido.");
         }
+
     }   
 
 
@@ -166,7 +168,7 @@ public class MenuSeries {
 
                     // Alteração de streaming
                     System.out.print("Novo streaming (deixe em branco para manter o anterior): ");
-                    String novoStreaming = console.nextLine();
+                    StriTP1ng novoStreaming = console.nextLine();
                     if (!novoStreaming.isEmpty()) {
                         try {
                             serie.streaming = novoStreaming;  // Atualiza o streaming se fornecido
