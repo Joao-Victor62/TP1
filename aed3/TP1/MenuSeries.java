@@ -168,7 +168,7 @@ public class MenuSeries {
 
                     // Alteração de streaming
                     System.out.print("Novo streaming (deixe em branco para manter o anterior): ");
-                    StriTP1ng novoStreaming = console.nextLine();
+                    String novoStreaming = console.nextLine();
                     if (!novoStreaming.isEmpty()) {
                         try {
                             serie.streaming = novoStreaming;  // Atualiza o streaming se fornecido
@@ -272,7 +272,8 @@ public class MenuSeries {
 
 
         if(resp == 'S' || resp == 's'){
-            MenuEpisodios menuEpisodio(serie);
+            //MenuEpisodios menuEpisodio(serie);
+
         }
     }
 }
