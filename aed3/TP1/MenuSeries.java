@@ -1,4 +1,4 @@
-
+package aed3.TP1;
 import java.util.Scanner;
 import aed3.*;
 

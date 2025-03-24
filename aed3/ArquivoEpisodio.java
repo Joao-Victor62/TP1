@@ -1,9 +1,10 @@
-package TP1;
+package aed3;
 
-import TP1.Episodio;
+import aed3.TP1.Episodio;
 import java.util.ArrayList;
-import TP1.ArvoreBMais;
-import TP1.HashExtensivel;
+//import TP1.ArvoreBMais;
+import aed3.RegistroHashExtensivel;
+import aed3.Arquivo;
 
 public class ArquivoEpisodio extends Arquivo<Episodio>
 {

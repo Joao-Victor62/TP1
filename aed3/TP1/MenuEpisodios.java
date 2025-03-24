@@ -1,11 +1,11 @@
-package TP1;
+package aed3.TP1;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import TP1.Episodio;
-import TP1.ArquivoEpisodio;
+import aed3.TP1.Episodio;
+import aed3.ArquivoEpisodio;
 
 public class MenuEpisodios {
 
