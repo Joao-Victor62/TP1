@@ -267,7 +267,7 @@ public class MenuSeries {
     }
     }
     public void menuEpisodioSerie(int serie){
-        System.out.print("\nDeseja adicionar episódio? (S/N) ");
+        System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio? (S/N) ");
         char resp = console.nextLine().charAt(0);
 
 
@@ -275,5 +275,6 @@ public class MenuSeries {
             //MenuEpisodios menuEpisodio(serie);
 
         }
+
     }
 }
