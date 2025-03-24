@@ -8,11 +8,13 @@ import aed3.TP1.Episodio;
 import aed3.ArquivoEpisodio;
 
 public class MenuEpisodios {
-
+    private int id_serie;
     ArquivoEpisodio arqEpisodios;
     private static Scanner console = new Scanner(System.in);
 
-    public MenuEpisodios() throws Exception {
+    public MenuEpisodios(int id) throws Exception
+    {
+        id_serie = id;
         arqEpisodios = new ArquivoEpisodio();
     }
 
@@ -64,9 +66,9 @@ public class MenuEpisodios {
     }
     /* 
     public void buscarEpisodiosTitulo() {
-        System.out.println("\nBusca de livro por título");
+        System.out.println("\nBusca de episodio por título");
         System.out.print("\nTítulo: ");
-        String titulo = console.nextLine();  // Lê o título digitado pelo usuário
+        String nome = console.nextLine();  // Lê o título digitado pelo usuário
 
         if(titulo.isEmpty())
             return; 
@@ -106,7 +108,7 @@ public class MenuEpisodios {
         int temporada = 0;
         LocalDate data = null;
         int duracao = 0;
-        int id_serie = 0;
+        int id_serie = this.id_serie;
         boolean dadosCorretos = false;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -180,9 +182,9 @@ public class MenuEpisodios {
         }
     }
     /* 
-    public void alterarLivro() {
-        System.out.println("\nAlteração de livro");
-        String isbn;
+    public void alterarEpisodio() {
+        System.out.println("\nAlteração de episodio");
+        int id;
         boolean dadosCorretos;
 
         dadosCorretos = false;
@@ -388,6 +390,8 @@ public class MenuEpisodios {
             System.out.println("----------------------");
         }
     }
+
+
 
     public void povoar() throws Exception {
         arqEpisodios.create(new Episodio("Lucifer, Fique. Bom Diabo.", 1, LocalDate.of(2016,02,8), 50));
