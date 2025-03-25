@@ -1,6 +1,8 @@
 package aed3.TP1;
 import java.util.Scanner;
 import aed3.*;
+import aed3.ArvoreB.ArvoreBMais;
+import aed3.ArvoreB.ParIntInt;
 
 public class MenuSeries {
     
@@ -266,13 +268,14 @@ public class MenuSeries {
 
     }
     }
-    public void menuEpisodioSerie(int serie){
+    public void menuEpisodioSerie(int serie) throws Exception {
         System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio? (S/N) ");
         char resp = console.nextLine().charAt(0);
 
 
         if(resp == 'S' || resp == 's'){
-            //MenuEpisodios menuEpisodio(serie);
+            MenuEpisodios menuEpisodio = new MenuEpisodios(serie);
+            menuEpisodio.menu();
 
         }
 

@@ -1,5 +1,7 @@
 package aed3;
 
+import aed3.ArvoreB.ArvoreBMais;
+import aed3.ArvoreB.ParIntInt;
 import aed3.TP1.Episodio;
 import java.util.ArrayList;
 //import TP1.ArvoreBMais;
@@ -10,10 +12,12 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
 {
     Arquivo<Episodio> arqEpisodios;
    // HashExtensivel<ParISBNID> indiceISBN;
-   // ArvoreBMais<ParTituloId> indiceTitulo;               IMPLEMENTAR ARVORE B+ (id Episodio, id episodio)
+   ArvoreBMais<ParIntInt> arvore;
+   int id_serie;
 
     public ArquivoEpisodio() throws Exception {
         super("Episodios", Episodio.class.getConstructor());
+        arvore = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "dados/arvore.db");
         /*
             indiceISBN = new HashExtensivel<>(
             ParISBNID.class.getConstructor(),
@@ -21,20 +25,22 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
             "./dados/"+nomeEntidade+"/indiceISBN.d.db",
             "./dados/"+nomeEntidade+"/indiceISBN.c.db"
             );
-        indiceTitulo = new ArvoreBMais<>(
-            ParTituloId.class.getConstructor(), 
-            5, 
-            "./dados/"+nomeEntidade+"/indiceTitulo.db");
-            */
+     */
+    }
+
+    public ArquivoEpisodio(int idserie) throws Exception {
+        super("Episodios", Episodio.class.getConstructor());
+        arvore = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "dados/arvore.db");
+        id_serie = idserie;
     }
 
     @Override
     public int create(Episodio e) throws Exception {
         int id = super.create(e);
-        /* 
-        indiceISBN.create(new ParISBNID(e.getISBN(), id));
-        indiceTitulo.create(new ParTituloId(e.getTitulo(), id));
-        */
+
+       // indiceISBN.create(new ParISBNID(e.getISBN(), id));
+        arvore.create(new ParIntInt(this.id_serie, id));
+
         return id;
     }
     /* 
@@ -67,8 +73,11 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
     public boolean delete(int id) throws Exception {
         Episodio l = read(id);   // na superclasse
         if(l!=null) {
-            super.delete(id);
-            /* 
+            if(super.delete(id)) {
+                arvore.delete(new ParIntInt(id_serie, id));
+                return true;
+            }
+            /*
             if(super.delete(id))
                 return indiceISBN.delete(ParISBNID.hash(l.getISBN()))
                     && indiceTitulo.delete(new ParTituloId(l.getTitulo(), id));
@@ -91,7 +100,8 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
     public boolean update(Episodio novoEpisodio) throws Exception {
         Episodio l = read(novoEpisodio.getId());    // na superclasse
         if(l!=null) {
-            super.update(novoEpisodio);
+            //if(super.update(novoEpisodio))
+
             /* 
             if(super.update(novoEpisodio)) {
                 if(!l.getISBN().equals(novoEpisodio.getISBN())) {

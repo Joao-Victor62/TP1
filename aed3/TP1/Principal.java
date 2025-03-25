@@ -34,7 +34,7 @@ public static void main(String[] args) {
                     (new MenuSeries()).menu();
                     break;
                 case 2:
-                    (new MenuEpisodios()).menu();
+                   // (new MenuEpisodios()).menu();
                     break;
                 case 0:
                     break;

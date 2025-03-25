@@ -52,9 +52,9 @@ public class Main {
             System.out.println("\nINCLUSÃO");
             int n1 = 0, n2 = 0;
             try {
-              System.out.print("ID - Episodio: ");
+              System.out.print("ID - Serie: ");
               n1 = Integer.valueOf(console.nextLine());
-              System.out.print("ID- Serie: ");
+              System.out.print("ID- Episodio: ");
               n2 = Integer.valueOf(console.nextLine());
             } catch (Exception e) {
               System.out.println("Não é um número!");

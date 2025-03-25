@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import aed3.ArvoreB.ArvoreBMais;
+import aed3.ArvoreB.ParIntInt;
 import aed3.TP1.Episodio;
 import aed3.ArquivoEpisodio;
 
@@ -12,13 +14,16 @@ public class MenuEpisodios {
     ArquivoEpisodio arqEpisodios;
     private static Scanner console = new Scanner(System.in);
 
+
+
     public MenuEpisodios(int id) throws Exception
     {
+
         id_serie = id;
-        arqEpisodios = new ArquivoEpisodio();
+        arqEpisodios = new ArquivoEpisodio(id);
     }
 
-    public void menu() {
+    public void menu() throws Exception {
 
         int opcao;
         do {
@@ -26,10 +31,10 @@ public class MenuEpisodios {
             System.out.println("\n\nPUCStreaming 1.0");
             System.out.println( "-----------");
             System.out.println("> Início > Episódios");
-            System.out.println("\n1 - Incluir");
+            System.out.println("\n1 - Incluir Episódio");
             System.out.println("2 - Buscar por Título");
-            System.out.println("3 - Alterar");
-            System.out.println("4 - Excluir");
+            System.out.println("3 - Alterar Episódio");
+            System.out.println("4 - Excluir Episódio");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -52,10 +57,12 @@ public class MenuEpisodios {
                     System.out.println("Opção inválida!");
                     break;
                 case 4:
-                    //excluirEpisodio();
-                    System.out.println("Opção inválida!");
+                    excluirEpisodio();
+                    //System.out.println("Opção inválida!");
                     break;
                 case 0:
+                    MenuSeries menuSerie = new MenuSeries();
+                    menuSerie.menu();
                     break;
                 default:
                     System.out.println("Opção inválida!");
@@ -157,24 +164,13 @@ public class MenuEpisodios {
             console.nextLine(); // Limpar o buffer 
         } while(!dadosCorretos);
 
-        dadosCorretos = false;
-        do {
-            System.out.print("Id da serie: ");
-            if (console.hasNextInt()) {
-                id_serie = console.nextInt();
-                dadosCorretos = true;
-            } else {
-                System.err.println("Serie não existe! Por favor, insira um número válido.");
-            }
-            console.nextLine(); // Limpar o buffer 
-        } while(!dadosCorretos);
-
         System.out.print("\nConfirma a inclusão do episodio? (S/N) ");
         char resp = console.nextLine().charAt(0);
         if(resp=='S' || resp=='s') {
             try {
                 Episodio e = new Episodio(nome, temporada, data, duracao, id_serie);
                 arqEpisodios.create(e);
+
                 System.out.println("Episodio incluído com sucesso.");
             } catch(Exception e) {
                 System.out.println("Erro do sistema. Não foi possível incluir o episódio!");
@@ -338,7 +334,7 @@ public class MenuEpisodios {
         
     }
 
-
+    */
     public void excluirEpisodio() {
         System.out.println("\nExclusão de livro");
         int id;
@@ -350,7 +346,7 @@ public class MenuEpisodios {
                 return; 
         try {
             // Tenta ler o livro com o ID fornecido
-            Episodio episodio = arqEpisodios.readISBN(id);
+            Episodio episodio = arqEpisodios.read(id);
             if (episodio != null) {
                 System.out.println("Episodio encontrado:");
                 mostraEpisodio(episodio);  // Exibe os dados do Episodio para confirmação
@@ -378,7 +374,7 @@ public class MenuEpisodios {
             e.printStackTrace();
         }
     }
-    */
+
     public void mostraEpisodio(Episodio episodio) {
         if (episodio != null) {
             System.out.println("----------------------");
