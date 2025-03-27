@@ -177,7 +177,7 @@ public class MenuEpisodios {
             }
         }
     }
-    /* 
+    /*
     public void alterarEpisodio() {
         System.out.println("\nAlteração de episodio");
         int id;
@@ -185,16 +185,12 @@ public class MenuEpisodios {
 
         dadosCorretos = false;
         do {
-            System.out.print("\nISBN (13 dígitos): ");
-            isbn = console.nextLine();  // Lê o ISBN digitado pelo usuário
+            System.out.print("\nId: ");
+            id = console.nextInt();  // Lê o ID digitado pelo usuário
 
-            if(isbn.isEmpty())
+            if(id<1)
                 return; 
 
-            // Validação do ISBN (13 dígitos e composto apenas por números)
-            if (Livro.isValidISBN13(isbn)) 
-                dadosCorretos = true;  // ISBN válido
-            else 
                 System.out.println("ISBN inválido. O ISBN deve conter exatamente 13 dígitos numéricos, sem pontos e traços.");
         } while (!dadosCorretos);
 

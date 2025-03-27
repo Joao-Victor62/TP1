@@ -24,7 +24,8 @@ public class MenuSeries {
             System.out.println("\n1 - Buscar");
             System.out.println("2 - Incluir");
             System.out.println("3 - Alterar");
-            System.out.println("4 - Excluir");
+            System.out.println("4 - Listar");
+            System.out.println("5 - Excluir");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -45,6 +46,9 @@ public class MenuSeries {
                     alterarSerie();
                     break;
                 case 4:
+                    listarSeries();
+                    break;
+                case 5:
                     excluirSerie();
                     break;
                 case 0:
@@ -81,8 +85,23 @@ public class MenuSeries {
             System.out.println("ID inválido.");
         }
 
-    }   
+    }
 
+    public void listarSeries()
+    {
+        try
+        {
+            Serie serie;
+            for (int i = 1; i<=arqSeries.getLastId(); i++)
+            {
+                serie = arqSeries.read(i);
+                mostrarSerie(serie);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar ID em arquivo!");
+        }
+    }
 
     public void incluirSerie() {
         String nome = "";

@@ -38,6 +38,12 @@ public class Arquivo<T extends Registro> {
         );
     }
 
+    public int getLastId() throws Exception
+    {
+        arquivo.seek(0);
+        return arquivo.readInt();
+    }
+
     public int create(T obj) throws Exception {
         arquivo.seek(0);
         int proximoID = arquivo.readInt()+1;
