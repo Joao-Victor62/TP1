@@ -18,7 +18,6 @@ public class MenuEpisodios {
 
     public MenuEpisodios(int id) throws Exception
     {
-
         id_serie = id;
         arqEpisodios = new ArquivoEpisodio(id);
     }

@@ -72,4 +72,12 @@ public class Serie implements Registro {
         this.streaming = dis.readUTF();
         this.anoLancamento = dis.readInt();
     }
+
+    public String getTitulo() {
+        return nome;
+    }
+
+    public int getID() {
+        return id;
+    }
 }

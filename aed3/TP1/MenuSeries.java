@@ -6,11 +6,12 @@ import aed3.ArvoreB.ParIntInt;
 
 public class MenuSeries {
     
-    Arquivo<Serie> arqSeries;
+    ArquivoSerie arqSeries;
+    ArvoreBMais<ParTituloId> indiceTitulo;
     private static Scanner console = new Scanner(System.in);
 
     public MenuSeries() throws Exception {
-        arqSeries = new Arquivo<>("series", Serie.class.getConstructor());
+        arqSeries = new ArquivoSerie();
     }
 
     public void menu() {
@@ -37,7 +38,7 @@ public class MenuSeries {
 
             switch (opcao) {
                 case 1:
-                    buscarSerie();
+                    buscarSerieTitulo();
                     break;
                 case 2:
                     incluirSerie();
@@ -61,6 +62,41 @@ public class MenuSeries {
         } while (opcao != 0);
     }
 
+    public void buscarSerieTitulo() {
+        System.out.println("\nBusca de livro por título");
+        System.out.print("\nTítulo: ");
+        String titulo = console.nextLine();  // Lê o título digitado pelo usuário
+
+        if(titulo.isEmpty())
+            return;
+
+        try {
+            Serie[] series = arqSeries.readTitulo(titulo);  // Chama o método de leitura da classe Arquivo
+            if (series.length>0) {
+                int n=1;
+                for(Serie l : series) {
+                    System.out.println((n++)+": "+l.getTitulo());
+                }
+                System.out.print("Escolha o serie: ");
+                int o;
+                do {
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarSerie(series[o-1]);  // Exibe os detalhes do livro encontrado
+            } else {
+                System.out.println("Nenhum livro encontrado.");
+            }
+        } catch(Exception e) {
+            System.out.println("Erro do sistema. Não foi possível buscar os livros!");
+            e.printStackTrace();
+        }
+    }
 
     public void buscarSerie() {
         System.out.print("\nID da Serie: ");
@@ -156,6 +192,7 @@ public class MenuSeries {
                 System.out.println("Serie incluído com sucesso.");
             } catch(Exception e) {
                 System.out.println("Erro do sistema. Não foi possível incluir a serie!");
+                e.printStackTrace();
             }
         }
     }
@@ -288,7 +325,7 @@ public class MenuSeries {
     }
     }
     public void menuEpisodioSerie(int serie) throws Exception {
-        System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio? (S/N) ");
+        System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio a série selecionada? (S/N) ");
         char resp = console.nextLine().charAt(0);
 
 
