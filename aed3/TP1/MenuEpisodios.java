@@ -11,15 +11,18 @@ import aed3.ArquivoEpisodio;
 
 public class MenuEpisodios {
     private int id_serie;
-    ArquivoEpisodio arqEpisodios;
+    private String titulo;
+    private ArquivoEpisodio arqEpisodios;
     private static Scanner console = new Scanner(System.in);
 
 
 
-    public MenuEpisodios(int id) throws Exception
+
+    public MenuEpisodios(int id, String titulo) throws Exception
     {
         id_serie = id;
         arqEpisodios = new ArquivoEpisodio(id);
+        this.titulo = titulo;
     }
 
     public void menu() throws Exception {
@@ -29,11 +32,12 @@ public class MenuEpisodios {
 
             System.out.println("\n\nPUCStreaming 1.0");
             System.out.println( "-----------");
-            System.out.println("> Início > Episódios");
+            System.out.println("> Início > " + titulo + " > Episódios");
             System.out.println("\n1 - Incluir Episódio");
             System.out.println("2 - Buscar por Título");
             System.out.println("3 - Alterar Episódio");
             System.out.println("4 - Excluir Episódio");
+            System.out.println("5 - Listar Episódio");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -59,6 +63,10 @@ public class MenuEpisodios {
                     excluirEpisodio();
                     //System.out.println("Opção inválida!");
                     break;
+                case 5:
+                    listarEps();
+                    //System.out.println("Opção inválida!");
+                    break;
                 case 0:
                     MenuSeries menuSerie = new MenuSeries();
                     menuSerie.menu();
@@ -69,6 +77,33 @@ public class MenuEpisodios {
             }
 
         } while (opcao != 0);
+    }
+
+    public void listarEps() {
+        System.out.println("Escolha o episódio que deseja mais detalhes: ");
+        try {
+            Episodio[] eps = arqEpisodios.readSerie(id_serie);  // Chama o método de leitura da classe Arquivo
+                if (eps.length > 0) {
+                    int n = 1;
+                    for (Episodio e : eps) {
+                        System.out.println((n++) + ": " + e.getNome());
+                    }
+                int o;
+                do {
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }
+                while(o<=0 || o>n-1);
+                mostraEpisodio(eps[o-1]);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     /* 
     public void buscarEpisodiosTitulo() {

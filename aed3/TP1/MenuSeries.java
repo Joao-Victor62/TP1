@@ -27,6 +27,7 @@ public class MenuSeries {
             System.out.println("3 - Alterar");
             System.out.println("4 - Listar");
             System.out.println("5 - Excluir");
+            System.out.println("6 - Buscar serie e episodio");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -52,6 +53,9 @@ public class MenuSeries {
                 case 5:
                     excluirSerie();
                     break;
+                case 6:
+                    buscarSerieEEp();
+                    break;
                 case 0:
                     break;
                 default:
@@ -62,13 +66,13 @@ public class MenuSeries {
         } while (opcao != 0);
     }
 
-    public void buscarSerieTitulo() {
-        System.out.println("\nBusca de livro por título");
+    public int buscarSerieTitulo() {
+        System.out.println("\nBusca de série por título");
         System.out.print("\nTítulo: ");
         String titulo = console.nextLine();  // Lê o título digitado pelo usuário
 
         if(titulo.isEmpty())
-            return;
+            return -1;
 
         try {
             Serie[] series = arqSeries.readTitulo(titulo);  // Chama o método de leitura da classe Arquivo
@@ -89,37 +93,28 @@ public class MenuSeries {
                         System.out.println("Escolha um número entre 1 e "+(n-1));
                 }while(o<=0 || o>n-1);
                 mostrarSerie(series[o-1]);  // Exibe os detalhes do livro encontrado
+                return series[o-1].id;
             } else {
-                System.out.println("Nenhum livro encontrado.");
+                System.out.println("Nenhuma serie encontrado.");
             }
         } catch(Exception e) {
-            System.out.println("Erro do sistema. Não foi possível buscar os livros!");
+            System.out.println("Erro do sistema. Não foi possível buscar serie por titulo!");
             e.printStackTrace();
         }
+        return -1;
     }
 
-    public void buscarSerie() {
-        System.out.print("\nID da Serie: ");
-        int id = console.nextInt();  // Lê o ID digitado pelo usuário
-        console.nextLine();  // Limpa o buffer após o nextInt()
-
-
-        if(id>0) {            
-            try {
-                Serie serie = arqSeries.read(id);  // Chama o método de leitura da classe Arquivo
-                if (serie != null) {
-                    mostrarSerie(serie);  // Exibe os detalhes do cliente encontrado
-                    menuEpisodioSerie(id);
-                } else {
-                    System.out.println("Serie não encontrado.");
-                }
-            } catch(Exception e) {
-                System.out.println("Erro do sistema. Não foi possível buscar a serie!");
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("ID inválido.");
-        }
+    public void buscarSerieEEp() {
+       int id = buscarSerieTitulo();
+       if(id != -1)
+       {
+           try {
+               menuEpisodioSerie(id);
+           }
+           catch(Exception e) {
+               System.out.println("Erro ao entrar no menu de episódios!");
+           }
+       }
 
     }
 
@@ -189,7 +184,7 @@ public class MenuSeries {
             try {
                 Serie c = new Serie(nome, sinopse, streaming, anoLancamento);
                 arqSeries.create(c);
-                System.out.println("Serie incluído com sucesso.");
+                System.out.println("Serie incluída com sucesso.");
             } catch(Exception e) {
                 System.out.println("Erro do sistema. Não foi possível incluir a serie!");
                 e.printStackTrace();
@@ -327,13 +322,7 @@ public class MenuSeries {
     public void menuEpisodioSerie(int serie) throws Exception {
         System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio a série selecionada? (S/N) ");
         char resp = console.nextLine().charAt(0);
-
-
-        if(resp == 'S' || resp == 's'){
-            MenuEpisodios menuEpisodio = new MenuEpisodios(serie);
-            menuEpisodio.menu();
-
-        }
-
+        MenuEpisodios menuEpisodio = new MenuEpisodios(serie, arqSeries.read(serie).getTitulo());
+        menuEpisodio.menu();
     }
 }

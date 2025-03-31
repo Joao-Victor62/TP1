@@ -7,12 +7,13 @@ import java.util.ArrayList;
 //import TP1.ArvoreBMais;
 import aed3.RegistroHashExtensivel;
 import aed3.Arquivo;
+import aed3.TP1.Serie;
 
 public class ArquivoEpisodio extends Arquivo<Episodio>
 {
     Arquivo<Episodio> arqEpisodios;
    // HashExtensivel<ParISBNID> indiceISBN;
-   ArvoreBMais<ParIntInt> arvore;
+    ArvoreBMais<ParIntInt> arvore;
    int id_serie;
 
     public ArquivoEpisodio() throws Exception {
@@ -42,6 +43,26 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
         arvore.create(new ParIntInt(this.id_serie, id));
 
         return id;
+    }
+
+    public Episodio[] readSerie(int id)
+    {
+        try {
+            ArrayList<ParIntInt> ptis = arvore.read(new ParIntInt(id, -1));
+            if(ptis.size()>0) {
+                Episodio[] episodios = new Episodio[ptis.size()];
+                int i=0;
+                for(ParIntInt pti: ptis)
+                    episodios[i++] = read(pti.getNum2());
+                return episodios;
+            }
+            else
+                return null;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     /* 
     public Episodio readISBN(String isbn) throws Exception {
