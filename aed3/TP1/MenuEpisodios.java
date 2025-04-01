@@ -34,10 +34,9 @@ public class MenuEpisodios {
             System.out.println( "-----------");
             System.out.println("> Início > " + titulo + " > Episódios");
             System.out.println("\n1 - Incluir Episódio");
-            System.out.println("2 - Buscar por Título");
+            System.out.println("2 - Listar Episódio");
             System.out.println("3 - Alterar Episódio");
             System.out.println("4 - Excluir Episódio");
-            System.out.println("5 - Listar Episódio");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -52,19 +51,15 @@ public class MenuEpisodios {
                     incluirEpisodio();
                     break;
                 case 2:
-                    //buscarEpisodiosTitulo();
-                    System.out.println("Opção inválida!");
+                    listarEps();
+                    //System.out.println("Opção inválida!");
                     break;
                 case 3:
-                    //alterarEpisodio();
-                    System.out.println("Opção inválida!");
+                    alterarEpisodio();
+                    //System.out.println("Opção inválida!");
                     break;
                 case 4:
                     excluirEpisodio();
-                    //System.out.println("Opção inválida!");
-                    break;
-                case 5:
-                    listarEps();
                     //System.out.println("Opção inválida!");
                     break;
                 case 0:
@@ -79,7 +74,7 @@ public class MenuEpisodios {
         } while (opcao != 0);
     }
 
-    public void listarEps() {
+    public int listarEps() {
         System.out.println("Escolha o episódio que deseja mais detalhes: ");
         try {
             Episodio[] eps = arqEpisodios.readSerie(id_serie);  // Chama o método de leitura da classe Arquivo
@@ -100,48 +95,13 @@ public class MenuEpisodios {
                 }
                 while(o<=0 || o>n-1);
                 mostraEpisodio(eps[o-1]);
+                return eps[o-1].getId();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return -1;
     }
-    /* 
-    public void buscarEpisodiosTitulo() {
-        System.out.println("\nBusca de episodio por título");
-        System.out.print("\nTítulo: ");
-        String nome = console.nextLine();  // Lê o título digitado pelo usuário
-
-        if(titulo.isEmpty())
-            return; 
-
-        try {
-            Episodio[] Episodios = arqEpisodios.readTitulo(titulo);  // Chama o método de leitura da classe Arquivo
-            if (Episodios.length>0) {
-                int n=1;
-                for(Livro l : Episodios) {
-                    System.out.println((n++)+": "+l.getTitulo());
-                }
-                System.out.print("Escolha o livro: ");
-                int o;
-                do { 
-                    try {
-                        o = Integer.valueOf(console.nextLine());
-                    } catch(NumberFormatException e) {
-                        o = -1;
-                    }
-                    if(o<=0 || o>n-1)
-                        System.out.println("Escolha um número entre 1 e "+(n-1));
-                }while(o<=0 || o>n-1);
-                mostraLivro(Episodios[o-1]);  // Exibe os detalhes do livro encontrado
-            } else {
-                System.out.println("Nenhum livro encontrado.");
-            }
-        } catch(Exception e) {
-            System.out.println("Erro do sistema. Não foi possível buscar os Episodios!");
-            e.printStackTrace();
-        }
-    }   
-    */
 
     public void incluirEpisodio() {
         System.out.println("\nInclusão de Episodio");
@@ -211,45 +171,16 @@ public class MenuEpisodios {
             }
         }
     }
-    /*
+
     public void alterarEpisodio() {
-        System.out.println("\nAlteração de episodio");
-        int id;
+        System.out.println("\nAlteração de episodio. Escolha episódio para alterar.");
+        int id = listarEps();
         boolean dadosCorretos;
 
-        dadosCorretos = false;
-        do {
-            System.out.print("\nId: ");
-            id = console.nextInt();  // Lê o ID digitado pelo usuário
-
-            if(id<1)
-                return; 
-
-                System.out.println("ISBN inválido. O ISBN deve conter exatamente 13 dígitos numéricos, sem pontos e traços.");
-        } while (!dadosCorretos);
-
-
         try {
-            // Tenta ler o livro com o ID fornecido
-            Livro livro = arqEpisodios.readISBN(isbn);
-            if (livro != null) {
-                mostraLivro(livro);  // Exibe os dados do livro para confirmação
-
-                // Alteração de ISBN
-                String novoIsbn;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Novo ISBN (deixe em branco para manter o anterior): ");
-                    novoIsbn = console.nextLine();
-                    if(!novoIsbn.isEmpty()) {
-                        if(Livro.isValidISBN13(novoIsbn)) {
-                            livro.setIsbn(novoIsbn);  // Atualiza o ISBN se fornecido
-                            dadosCorretos = true;
-                        } else 
-                            System.err.println("O ISBN deve ter exatamente 13 dígitos.");
-                    } else 
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
+            Episodio ep = arqEpisodios.read(id);
+            if (ep != null) {
+               // mostraLivro(livro);  // Exibe os dados do livro para confirmação
 
                 // Alteração de titulo
                 String novoTitulo;
@@ -259,7 +190,7 @@ public class MenuEpisodios {
                     novoTitulo = console.nextLine();
                     if(!novoTitulo.isEmpty()) {
                         if(novoTitulo.length()>=4) {
-                            livro.setTitulo(novoTitulo);  // Atualiza o título se fornecido
+                            ep.setNome(novoTitulo);  // Atualiza o título se fornecido
                             dadosCorretos = true;
                         } else
                             System.err.println("O título do livro deve ter no mínimo 4 caracteres.");
@@ -267,59 +198,27 @@ public class MenuEpisodios {
                         dadosCorretos = true;
                 } while(!dadosCorretos);
 
-                // Alteração de autor
-                String novoAutor;
+                // Alteração da temporada
+                String novaTemporada;
                 dadosCorretos = false;
                 do {
-                    System.out.print("Novo autor (deixe em branco para manter o anterior): ");
-                    novoAutor = console.nextLine();
-                    if(!novoAutor.isEmpty()) {
-                        if(novoAutor.length()>=4) {
-                            livro.setAutor(novoAutor);  // Atualiza o título se fornecido
-                            dadosCorretos = true;
-                        } else
-                            System.err.println("O nome do autor deve ter no mínimo 4 caracteres.");
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
-
-                // Alteração da edição
-                String novaEdicao;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Nova edição (deixe em branco para manter a anterior): ");
-                    novaEdicao = console.nextLine();
-                    if(!novaEdicao.isEmpty()) {
+                    System.out.print("Nova Temporada (deixe em branco para manter a anterior): ");
+                    novaTemporada = console.nextLine();
+                    if(!novaTemporada.isEmpty()) {
                         try {
-                            int edicao = Integer.parseInt(novaEdicao);
+                            int edicao = Integer.parseInt(novaTemporada);
                             if(edicao>0 && edicao<128) {
-                                livro.setEdicao((byte)edicao);  // Atualiza a edição, se fornecida
+                                ep.setTemporada((byte)edicao);  // Atualiza a temporada, se fornecida
                                 dadosCorretos = true;
                             } else
-                                    System.err.println("A edição deve ser um número entre 1 e 127.");
+                                    System.err.println("A Temporada deve ser um número entre 1 e 127.");
                         } catch(NumberFormatException e) {
-                            System.err.println("Número de edição inválido! Por favor, insira um número válido.");
+                            System.err.println("Número de temporada inválido! Por favor, insira um número válido.");
                         }
                     } else
                         dadosCorretos = true;
                 } while(!dadosCorretos);
 
-                // Alteração de preço
-                String novoPreco;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Novo preço (deixe em branco para manter o anterior): ");
-                    novoPreco = console.nextLine();
-                    if(!novoPreco.isEmpty()) {
-                        try {
-                            livro.setPreco(Float.parseFloat(novoPreco));  // Atualiza o preço, se fornecido
-                            dadosCorretos = true;
-                        } catch(NumberFormatException e) {
-                            System.err.println("Preço inválido! Por favor, insira um número válido.");
-                        }
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
 
 
                 // Alteração de data de lançamento
@@ -331,7 +230,8 @@ public class MenuEpisodios {
                     if (!novaData.isEmpty()) {
                         try {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                            livro.setDataLancamento(LocalDate.parse(novaData, formatter));  // Atualiza a data de lançamento se fornecida
+                            ep.setData(LocalDate.parse(novaData, formatter));  // Atualiza a data de lançamento se fornecida
+                            dadosCorretos = true;
                         } catch (Exception e) {
                             System.err.println("Data inválida. Valor mantido.");
                         }
@@ -339,12 +239,34 @@ public class MenuEpisodios {
                         dadosCorretos = true;
                 } while(!dadosCorretos);
 
+                // Alteração da duração
+                String novaDuracao;
+                dadosCorretos = false;
+                do {
+                    System.out.print("Nova duração (deixe em branco para manter a anterior): ");
+                    novaDuracao = console.nextLine();
+                    if(!novaDuracao.isEmpty()) {
+                        try {
+                            int edicao = Integer.parseInt(novaDuracao);
+                            if(edicao>0 && edicao<128) {
+                                ep.setDuracao((byte)edicao);  // Atualiza a duração, se fornecida
+                                dadosCorretos = true;
+                            } else
+                                System.err.println("A Temporada deve ser um número entre 1 e 127.");
+                        } catch(NumberFormatException e) {
+                            System.err.println("Número de duração inválido! Por favor, insira um número válido.");
+                        }
+                    } else
+                        dadosCorretos = true;
+                } while(!dadosCorretos);
+
+
                 // Confirmação da alteração
                 System.out.print("\nConfirma as alterações? (S/N) ");
                 char resp = console.next().charAt(0);
                 if (resp == 'S' || resp == 's') {
                     // Salva as alterações no arquivo
-                    boolean alterado = arqEpisodios.update(livro);
+                    boolean alterado = arqEpisodios.update(ep);
                     if (alterado) {
                         System.out.println("Livro alterado com sucesso.");
                     } else {
@@ -364,23 +286,16 @@ public class MenuEpisodios {
         
     }
 
-    */
+
     public void excluirEpisodio() {
-        System.out.println("\nExclusão de livro");
-        int id;
+        System.out.println("\nExclusão de Episodio");
+        int id = listarEps();
         boolean dadosCorretos = false;
 
-        System.out.print("\nId: ");
-        id = console.nextInt();  // Lê o ISBN digitado pelo usuário
-            if(id<0)
-                return; 
         try {
-            // Tenta ler o livro com o ID fornecido
+            // Tenta ler o Episodio com o ID fornecido
             Episodio episodio = arqEpisodios.read(id);
             if (episodio != null) {
-                System.out.println("Episodio encontrado:");
-                mostraEpisodio(episodio);  // Exibe os dados do Episodio para confirmação
-
                 System.out.print("\nConfirma a exclusão do Episodio? (S/N) ");
                 char resp = console.next().charAt(0);  // Lê a resposta do usuário
 

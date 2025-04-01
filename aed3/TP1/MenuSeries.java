@@ -193,10 +193,9 @@ public class MenuSeries {
     }
 
     public void alterarSerie() {
-        System.out.print("\nDigite o ID da serie a ser alterado: ");
-        int id = console.nextInt();  // Lê o ID da serie
+        int id = buscarSerieTitulo();  // Lê o ID da serie
+        System.out.println("Pressione enter para seguir com a alteração.");
         console.nextLine();  // Limpar o buffer após o nextInt()
-
         if (id > 0) {
             try {
                 // Tenta ler a serie com o ID fornecido
@@ -270,16 +269,15 @@ public class MenuSeries {
 
 
     public void excluirSerie() {
-        System.out.print("\nDigite o ID da serie a ser excluído: ");
-        int id = console.nextInt();  // Lê o ID digitado pelo usuário
 
+        int id = buscarSerieTitulo();
         if (id > 0) {
             try {
                 // Tenta ler a serie com o ID fornecido
                 Serie serie = arqSeries.read(id);
                 if (serie != null) {
-                    System.out.println("Serie encontrado:");
-                    mostrarSerie(serie);  // Exibe os dados da serie para confirmação
+                    //System.out.println("Serie encontrado:");
+                    //mostrarSerie(serie);  // Exibe os dados da serie para confirmação
 
                     System.out.print("\nConfirma a exclusão da serie? (S/N) ");
                     char resp = console.next().charAt(0);  // Lê a resposta do usuário
