@@ -12,7 +12,9 @@ disciplina:
 Implementado pelo Prof. Marcos Kutova
 v1.1 - 2021
 */
-package aed3;
+package aed3.Hash;
+
+import aed3.Interface.RegistroHashExtensivel;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

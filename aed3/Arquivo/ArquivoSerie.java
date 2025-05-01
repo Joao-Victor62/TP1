@@ -1,12 +1,12 @@
-package aed3;
+package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
-import aed3.TP1.Serie;
+import aed3.Hash.ParTituloId;
+import aed3.TP2.Model.Serie;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
-public class ArquivoSerie extends Arquivo<Serie>{
+public class ArquivoSerie extends Arquivo<Serie> {
     Arquivo<Serie> arqSeries;
     ArvoreBMais<ParTituloId> indiceTitulo;
 

@@ -1,7 +1,9 @@
-package aed3.TP1;
+package aed3.TP2;
 
 import java.util.Scanner;
-import aed3.TP1.MenuSeries;
+
+import aed3.TP2.Menu.MenuAtor;
+import aed3.TP2.Menu.MenuSeries;
 
 
 public class Principal {

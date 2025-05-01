@@ -1,8 +1,10 @@
-package aed3.TP1;
+package aed3.TP2.Menu;
 import java.util.Scanner;
-import aed3.*;
+
+import aed3.Arquivo.ArquivoSerie;
 import aed3.ArvoreB.ArvoreBMais;
-import aed3.ArvoreB.ParIntInt;
+import aed3.Hash.ParTituloId;
+import aed3.TP2.Model.Serie;
 
 public class MenuSeries {
     

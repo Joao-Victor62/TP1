@@ -1,13 +1,11 @@
-package aed3.TP1;
+package aed3.TP2.Menu;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import aed3.ArvoreB.ArvoreBMais;
-import aed3.ArvoreB.ParIntInt;
-import aed3.TP1.Episodio;
-import aed3.ArquivoEpisodio;
+import aed3.TP2.Model.Episodio;
+import aed3.Arquivo.ArquivoEpisodio;
 
 public class MenuEpisodios {
     private int id_serie;

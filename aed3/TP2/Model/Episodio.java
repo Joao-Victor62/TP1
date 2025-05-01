@@ -1,6 +1,6 @@
-package aed3.TP1;
+package aed3.TP2.Model;
 
-import aed3.Registro;
+import aed3.Interface.Registro;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

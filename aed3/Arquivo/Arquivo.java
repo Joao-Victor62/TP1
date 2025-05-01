@@ -1,5 +1,9 @@
-package aed3;
+package aed3.Arquivo;
 
+
+import aed3.Hash.HashExtensivel;
+import aed3.Hash.ParIDEndereco;
+import aed3.Interface.Registro;
 
 import java.io.File;
 import java.io.RandomAccessFile;

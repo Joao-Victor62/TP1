@@ -1,13 +1,11 @@
-package aed3;
+package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParIntInt;
-import aed3.TP1.Episodio;
+import aed3.TP2.Model.Episodio;
 import java.util.ArrayList;
 //import TP1.ArvoreBMais;
-import aed3.RegistroHashExtensivel;
-import aed3.Arquivo;
-import aed3.TP1.Serie;
+
 
 public class ArquivoEpisodio extends Arquivo<Episodio>
 {

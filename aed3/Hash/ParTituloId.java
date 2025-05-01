@@ -1,4 +1,4 @@
-package aed3;
+package aed3.Hash;
 
 import aed3.ArvoreB.RegistroArvoreBMais;
 
