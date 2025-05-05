@@ -3,16 +3,16 @@ import java.util.Scanner;
 
 import aed3.Arquivo.ArquivoAtor;
 import aed3.ArvoreB.ArvoreBMais;
-import aed3.Hash.ParTituloId;
+import aed3.ArvoreB.ParTituloId;
 import aed3.TP2.Model.Ator;
 
-public class  MenuAtor {
+public class MenuAtorPrincipal {
     
     ArquivoAtor arqAtor;
     ArvoreBMais<ParTituloId> indiceNome;
     private static Scanner console = new Scanner(System.in);
 
-    public MenuAtor() throws Exception {
+    public MenuAtorPrincipal() throws Exception {
         arqAtor = new ArquivoAtor();
     }
 

@@ -1,7 +1,7 @@
 package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
-import aed3.Hash.ParTituloId;
+import aed3.ArvoreB.ParTituloId;
 import aed3.TP2.Model.Serie;
 
 import java.util.ArrayList;

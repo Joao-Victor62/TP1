@@ -1,6 +1,4 @@
-package aed3.Hash;
-
-import aed3.ArvoreB.RegistroArvoreBMais;
+package aed3.ArvoreB;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

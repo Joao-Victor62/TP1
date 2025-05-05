@@ -2,7 +2,7 @@ package aed3.TP2;
 
 import java.util.Scanner;
 
-import aed3.TP2.Menu.MenuAtor;
+import aed3.TP2.Menu.MenuAtorPrincipal;
 import aed3.TP2.Menu.MenuSeries;
 
 
@@ -36,7 +36,7 @@ public static void main(String[] args) {
                     (new MenuSeries()).menu();
                     break;
                 case 2:
-                    (new MenuAtor()).menu();
+                    (new MenuAtorPrincipal()).menu();
                     break;
                 case 0:
                     break;

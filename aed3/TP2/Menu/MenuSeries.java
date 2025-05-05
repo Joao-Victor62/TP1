@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 import aed3.Arquivo.ArquivoSerie;
 import aed3.ArvoreB.ArvoreBMais;
-import aed3.Hash.ParTituloId;
+import aed3.ArvoreB.ParTituloId;
 import aed3.TP2.Model.Serie;
 
 public class MenuSeries {
@@ -16,7 +16,7 @@ public class MenuSeries {
         arqSeries = new ArquivoSerie();
     }
 
-    public void menu() {
+    public void menu() throws Exception {
 
         int opcao;
         do {
@@ -30,6 +30,7 @@ public class MenuSeries {
             System.out.println("4 - Listar");
             System.out.println("5 - Excluir");
             System.out.println("6 - Buscar serie e episodio");
+            System.out.println("7 - Gerenciar Elenco");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -58,6 +59,8 @@ public class MenuSeries {
                 case 6:
                     buscarSerieEEp();
                     break;
+                case 7:
+                    gerenciarElenco();
                 case 0:
                     break;
                 default:
@@ -66,6 +69,11 @@ public class MenuSeries {
             }
 
         } while (opcao != 0);
+    }
+
+    private void gerenciarElenco() throws Exception {
+        MenuAtorSerie menuAtorSerie = new MenuAtorSerie(buscarSerieTitulo());
+        menuAtorSerie.menu();
     }
 
     public int buscarSerieTitulo() {
