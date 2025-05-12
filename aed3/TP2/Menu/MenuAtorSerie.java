@@ -3,6 +3,7 @@ package aed3.TP2.Menu;
 import aed3.Arquivo.ArquivoAtor;
 import aed3.Arquivo.ArquivoAtuacao;
 import aed3.Arquivo.ArquivoSerie;
+import aed3.ArvoreB.*;
 import aed3.TP2.Model.Ator;
 import aed3.TP2.Model.Atuacao;
 
@@ -12,6 +13,7 @@ public class MenuAtorSerie {
     private int id_serie;
     private ArquivoAtor arqAtor;
     private ArquivoSerie arqSeries;
+
     private static Scanner console = new Scanner(System.in);
 
     public MenuAtorSerie(int id_serie) throws Exception {
@@ -70,7 +72,7 @@ public class MenuAtorSerie {
             String nomePersonagem = console.nextLine();
 
             ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
-            Atuacao novaAtuacao = new Atuacao(-1, id_serie, idAtor, nomePersonagem);
+            Atuacao novaAtuacao = new Atuacao(-1, idAtor, id_serie, nomePersonagem);
             int id = arqAtuacao.create(novaAtuacao);
 
             if (id > 0) {
@@ -85,7 +87,8 @@ public class MenuAtorSerie {
         }
     }
 
-    public void listarAtoresSerie() {
+   public boolean listarAtoresSerie() {
+        boolean existe = false;
         try {
             ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
 
@@ -95,6 +98,7 @@ public class MenuAtorSerie {
             for (Atuacao atuacao : arqAtuacao.readPorSerie(id_serie)) {
                 Ator ator = arqAtor.read(atuacao.getIdAtor());
                 if (ator != null) {
+                    existe = true;
                     System.out.printf("Ator: %s - Personagem: %s%n", ator.getNome(), atuacao.getPapel());
                 }
             }
@@ -103,6 +107,7 @@ public class MenuAtorSerie {
             System.out.println("Erro ao listar elenco.");
             e.printStackTrace();
         }
+        return existe;
     }
 
     public void alterarAtorSerie() {
@@ -142,7 +147,6 @@ public class MenuAtorSerie {
             MenuAtorPrincipal menuAtor = new MenuAtorPrincipal();
             int idAtor = menuAtor.buscarAtorNome();
             if (idAtor < 0) return;
-
             ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
             boolean ok = arqAtuacao.deleteBySerieEAtor(id_serie, idAtor);
 

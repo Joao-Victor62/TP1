@@ -6,7 +6,7 @@ public class ParIdAtorIdAtuacao implements RegistroArvoreBMais<ParIdAtorIdAtuaca
 
     private int idAtor;
     private int idAtuacao;
-    private short TAMANHO = 12;
+    private short TAMANHO = 8;
 
     public ParIdAtorIdAtuacao() {
         this(-1, -1);
@@ -42,7 +42,7 @@ public class ParIdAtorIdAtuacao implements RegistroArvoreBMais<ParIdAtorIdAtuaca
         if (this.idAtor != par.idAtor)
             return this.idAtor - par.idAtor;
         else
-            return this.idAtuacao - par.idAtuacao;
+            return idAtuacao == -1 ? 0 : this.idAtuacao - par.idAtuacao;
     }
 
     @Override

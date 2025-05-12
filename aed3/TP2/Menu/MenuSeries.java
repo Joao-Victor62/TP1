@@ -328,8 +328,6 @@ public class MenuSeries {
     }
     }
     public void menuEpisodioSerie(int serie) throws Exception {
-        System.out.print("\nDeseja adicionar, excluir ou atualizar algum episódio a série selecionada? (S/N) ");
-        char resp = console.nextLine().charAt(0);
         MenuEpisodios menuEpisodio = new MenuEpisodios(serie, arqSeries.read(serie).getTitulo());
         menuEpisodio.menu();
     }

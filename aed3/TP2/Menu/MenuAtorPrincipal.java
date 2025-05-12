@@ -1,19 +1,27 @@
 package aed3.TP2.Menu;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import aed3.Arquivo.ArquivoAtor;
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
 import aed3.TP2.Model.Ator;
+import aed3.TP2.Model.Atuacao;
+import aed3.Arquivo.ArquivoAtuacao;
+import aed3.Arquivo.ArquivoSerie;
+import aed3.TP2.Model.Serie;
+import jdk.jfr.StackTrace;
 
 public class MenuAtorPrincipal {
-    
+    ArquivoAtuacao arqAtuacao;
     ArquivoAtor arqAtor;
-    ArvoreBMais<ParTituloId> indiceNome;
+    ArquivoSerie arqSerie;
     private static Scanner console = new Scanner(System.in);
 
     public MenuAtorPrincipal() throws Exception {
         arqAtor = new ArquivoAtor();
+        arqSerie = new ArquivoSerie();
+        arqAtuacao = new ArquivoAtuacao();
     }
 
     public void menu() {
@@ -29,6 +37,7 @@ public class MenuAtorPrincipal {
             System.out.println("3 - Alterar");
             System.out.println("4 - Listar");
             System.out.println("5 - Excluir");
+            System.out.println("6 - Busca séries de um ator");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -53,6 +62,9 @@ public class MenuAtorPrincipal {
                     break;
                 case 5:
                     excluirAtor();
+                    break;
+                case 6:
+                    buscarSerieAtor();
                     break;
                 case 0:
                     break;
@@ -91,6 +103,10 @@ public class MenuAtorPrincipal {
                         System.out.println("Escolha um número entre 1 e "+(n - 1));
                 } while(o <= 0 || o > n - 1);
                 mostrarAtor(atores[o - 1]);
+
+
+
+
                 return atores[o - 1].id;
             } else {
                 System.out.println("Nenhum ator encontrado.");
@@ -100,6 +116,31 @@ public class MenuAtorPrincipal {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public boolean buscarSerieAtor()
+    {
+        int id = buscarAtorNome();
+        boolean existe = false;
+        try {
+            ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
+
+            System.out.println("\nSeries do ator:");
+            System.out.println("----------------------------");
+
+            for (Atuacao atuacao : arqAtuacao.readPorAtor2(id)) {
+                Serie serie = arqSerie.read(atuacao.getIdSerie());
+                if (serie != null) {
+                    existe = true;
+                    System.out.println(serie.toString());
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao listar elenco.");
+            e.printStackTrace();
+        }
+        return existe;
     }
 
     public void listarAtores() {
@@ -190,9 +231,13 @@ public class MenuAtorPrincipal {
         if (id > 0) {
             try {
                 Ator ator = arqAtor.read(id);
-                if (ator != null) {
+                ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
+                if (arqAtuacao.readPorAtor(id).length>0) {
+                    System.out.println("Erro: Impossível excluir ator que está registrado em uma serie!");
+                }
+                else if (ator != null) {
                     System.out.print("\nConfirma a exclusão do ator? (S/N) ");
-                    char resp = console.next().charAt(0);
+                    char resp = console.nextLine().charAt(0);
 
                     if (resp == 'S' || resp == 's') {
                         boolean excluido = arqAtor.delete(id);

@@ -6,17 +6,13 @@ public class ParIdSerieIdAtuacao implements RegistroArvoreBMais<ParIdSerieIdAtua
 
     private int idSerie;
     private int idAtuacao;
-    private short TAMANHO = 12;
+    private static final short TAMANHO = 8;
 
     public ParIdSerieIdAtuacao() {
-        this(-1, -1, -1);
+        this(-1, -1);
     }
 
-    public ParIdSerieIdAtuacao(int idSerie, int idAtor) {
-        this(idSerie, idAtor, -1);
-    }
-
-    public ParIdSerieIdAtuacao(int idSerie, int idAtor, int idAtuacao) {
+    public ParIdSerieIdAtuacao(int idSerie, int idAtuacao) {
         this.idSerie = idSerie;
         this.idAtuacao = idAtuacao;
     }
@@ -45,7 +41,7 @@ public class ParIdSerieIdAtuacao implements RegistroArvoreBMais<ParIdSerieIdAtua
         if (this.idSerie != par.idSerie)
             return this.idSerie - par.idSerie;
         else
-            return this.idAtuacao - par.idAtuacao;
+            return idAtuacao == -1 ? 0 : this.idAtuacao - par.idAtuacao;
     }
 
     @Override

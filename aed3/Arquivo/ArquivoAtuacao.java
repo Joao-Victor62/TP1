@@ -29,14 +29,22 @@ public class ArquivoAtuacao extends Arquivo<Atuacao> {
     @Override
     public int create(Atuacao a) throws Exception {
         int id = super.create(a);
-
         indiceAtorSerie.create(new ParIdAtorIdAtuacao(a.getIdAtor(), id));
         indiceSerieAtor.create(new ParIdSerieIdAtuacao(a.getIdSerie(), id));
-
         return id;
     }
 
-    public Atuacao[] readPorAtor(int idAtor) throws Exception {
+    public int[] readPorAtor(int idAtor) throws Exception {
+        ArrayList<ParIdAtorIdAtuacao> pares = indiceAtorSerie.read(new ParIdAtorIdAtuacao(idAtor, -1));
+        int[] listAtuacoes = new int[pares.size()];
+        int i = 0;
+        for (ParIdAtorIdAtuacao par : pares) {
+            listAtuacoes[i++] = par.getIdAtuacao();
+        }
+        return listAtuacoes;
+    }
+
+    public Atuacao[] readPorAtor2(int idAtor) throws Exception {
         ArrayList<ParIdAtorIdAtuacao> pares = indiceAtorSerie.read(new ParIdAtorIdAtuacao(idAtor, -1));
         if (pares.size() > 0) {
             Atuacao[] atuacoes = new Atuacao[pares.size()];
@@ -60,10 +68,7 @@ public class ArquivoAtuacao extends Arquivo<Atuacao> {
         return null;
     }
 
-    // ✅ Novo método incluído
-    public Atuacao[] readBySerie(int idSerie) throws Exception {
-        return readPorSerie(idSerie);
-    }
+
 
     public Atuacao readBySerieEAtor(int idSerie, int idAtor) throws Exception {
         Atuacao[] atuacoes = readPorSerie(idSerie);
@@ -118,5 +123,10 @@ public class ArquivoAtuacao extends Arquivo<Atuacao> {
             }
         }
         return false;
+    }
+
+    public int getLastId() throws Exception
+    {
+        return super.getLastId();
     }
 }
