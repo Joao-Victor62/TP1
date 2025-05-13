@@ -1,9 +1,13 @@
 package aed3.TP2.Menu;
 import java.util.Scanner;
 
+import aed3.Arquivo.ArquivoAtuacao;
+import aed3.Arquivo.ArquivoEpisodio;
 import aed3.Arquivo.ArquivoSerie;
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
+import aed3.TP2.Model.Atuacao;
+import aed3.TP2.Model.Episodio;
 import aed3.TP2.Model.Serie;
 
 public class MenuSeries {
@@ -279,40 +283,74 @@ public class MenuSeries {
 
 
     public void excluirSerie() {
+    int id = buscarSerieTitulo();
+    if (id > 0) {
+        try {
+            // Tenta ler a série com o ID fornecido
+            Serie serie = arqSeries.read(id);
+            if (serie != null) {
+                // Excluir episódios relacionados
+                excluirEpisodiosDaSerie(id);
 
-        int id = buscarSerieTitulo();
-        if (id > 0) {
-            try {
-                // Tenta ler a serie com o ID fornecido
-                Serie serie = arqSeries.read(id);
-                if (serie != null) {
-                    //System.out.println("Serie encontrado:");
-                    //mostrarSerie(serie);  // Exibe os dados da serie para confirmação
+                // Excluir atuações relacionadas
+                excluirAtuacoesDaSerie(id);
 
-                    System.out.print("\nConfirma a exclusão da serie? (S/N) ");
-                    char resp = console.next().charAt(0);  // Lê a resposta do usuário
+                // Confirmar a exclusão da série
+                System.out.print("\nConfirma a exclusão da série? (S/N) ");
+                char resp = console.next().charAt(0);  // Lê a resposta do usuário
 
-                    if (resp == 'S' || resp == 's') {
-                        boolean excluido = arqSeries.delete(id);  // Chama o método de exclusão no arquivo
-                        if (excluido) {
-                            System.out.println("Serie excluído com sucesso.");
-                        } else {
-                            System.out.println("Erro ao excluir a serie.");
-                        }
+                if (resp == 'S' || resp == 's') {
+                    boolean excluido = arqSeries.delete(id);  // Excluir a série do arquivo
+                    if (excluido) {
+                        System.out.println("Série excluída com sucesso.");
                     } else {
-                        System.out.println("Exclusão cancelada.");
+                        System.out.println("Erro ao excluir a série.");
                     }
                 } else {
-                    System.out.println("Serie não encontrado.");
+                    System.out.println("Exclusão cancelada.");
                 }
-            } catch (Exception e) {
-                System.out.println("Erro do sistema. Não foi possível excluir a serie!");
-                e.printStackTrace();
+            } else {
+                System.out.println("Série não encontrada.");
             }
-        } else {
-            System.out.println("ID inválido.");
+        } catch (Exception e) {
+            System.out.println("Erro do sistema. Não foi possível excluir a série!");
+            e.printStackTrace();
         }
+    } else {
+        System.out.println("ID inválido.");
     }
+}
+
+private void excluirEpisodiosDaSerie(int idSerie) {
+    try {
+        // Excluir episódios da série
+        ArquivoEpisodio arqEpisodios = new ArquivoEpisodio(idSerie);
+        Episodio[] episodios = arqEpisodios.readSerie(idSerie);
+        for (Episodio episodio : episodios) {
+            arqEpisodios.delete(episodio.getId());  // Deletar o episódio
+        }
+        System.out.println("Episódios excluídos com sucesso.");
+    } catch (Exception e) {
+        System.out.println("Erro ao excluir episódios da série.");
+        e.printStackTrace();
+    }
+}
+
+private void excluirAtuacoesDaSerie(int idSerie) {
+    try {
+        // Excluir atuações da série
+        ArquivoAtuacao arqAtuacao = new ArquivoAtuacao();
+        Atuacao[] atuacoes = arqAtuacao.readPorSerie(idSerie);
+        for (Atuacao atuacao : atuacoes) {
+            arqAtuacao.delete(atuacao.getId());  // Deletar a atuação
+        }
+        System.out.println("Atuações excluídas com sucesso.");
+    } catch (Exception e) {
+        System.out.println("Erro ao excluir atuações da série.");
+        e.printStackTrace();
+    }
+}
+
 
  
     public void mostrarSerie(Serie serie) {
