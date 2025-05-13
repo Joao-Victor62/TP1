@@ -40,13 +40,13 @@ Trabalhos feitos na diciplina de Algoritmos e Estruturas de Dados III
                                  desempenha um papel.
 
     Dificuldades: Em geral, o desenvolvimento ocorreu sem muitas dificuldades, salvo uma
-                  ocorrência mais ao fim. Devido a uma discrepância entre a instanciação da 
+                  ocorrência mais ao fim. Devido a uma discrepância na instanciação da 
                   entidade Atuação (o contrutor pedia o Id da série primeiro e do ator depois,
                   mas ao instancia-la, acidentalmente estavamos fazendo o inverso), os registros
                   da árvore de IdAtorIdAtuacao e IdSerieIdAtuacao ficaram trocados entre si, ou seja,
                   os registros de uma foram para a outra e vice-versa. A detecção desse erro e sua
                   subsequente correção demoraram uma grande quantidade de tempo, mas felizmente,
-                  foi possível resolver o problema. No fim, todos os resultados foram alcançados,
+                  foi possível resolver o problema. No fim, todos os objetivos foram alcançados,
                   e o grupo, de maneira geral, está satisfeito com o que foi alcaçado.
     
     
