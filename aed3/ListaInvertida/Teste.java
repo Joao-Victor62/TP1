@@ -1,5 +1,7 @@
 package aed3.ListaInvertida;
 
+import java.util.List;
+
 import aed3.Arquivo.ArquivoAtor;
 import aed3.Arquivo.ArquivoSerie;
 import aed3.TP2.Model.Ator;
@@ -7,14 +9,17 @@ import aed3.TP2.Model.Serie;
 
 public class Teste {
     public static void main(String[] args) {
+        LI<Serie> li = new LI<>("series");
+
+       
         try {
-            ArquivoSerie arquivoSerie = new ArquivoSerie();
-            LI<Serie> lista = new LI<Serie>("Series");
-            Serie serie = arquivoSerie.read(1);
-            lista.insert(serie.getNome(), serie);
+            li.listaInvertida.print();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
+        //teste para o buscar
+        List<Integer> resultado = li.buscar("hora da programacao na intruducao");//colcoar a frase q vais er testada
+        System.out.println("Resultado da busca: " + resultado);
     }
 }

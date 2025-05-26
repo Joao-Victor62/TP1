@@ -3,13 +3,16 @@ package aed3.ListaInvertida;
 import aed3.Interface.Registro;
 
 import java.nio.file.Files;
+import java.util.stream.Collectors;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class LI<T extends Registro> {
-    private ListaInvertida listaInvertida;
+    ListaInvertida listaInvertida;
 
     public LI(String classe)
     {
@@ -51,6 +54,58 @@ public class LI<T extends Registro> {
             e.printStackTrace();
         }
     }
+
+
+    public List<Integer> buscar(String consulta) {
+    List<Integer> resultadosOrdenados = new ArrayList<>();
+    try {
+        // 1. Ler stop words
+        List<String> stopWords = Files.readAllLines(Paths.get("aed3/ListaInvertida/stopwords.txt"));
+
+        // 2. Pré-processar a consulta
+        String[] palavras = consulta.split(" ");
+        List<String> termosValidos = new ArrayList<>();
+        for (String p : palavras) {
+            String palavraFormatada = formatarPalavra(p);
+            if (!palavraFormatada.isEmpty() && !stopWords.contains(palavraFormatada)) {
+                termosValidos.add(palavraFormatada);
+            }
+        }
+        
+        // 3. Para cada termo, buscar lista invertida
+        int totalDocumentos = listaInvertida.numeroEntidades(); 
+        Map<Integer, Float> acumuladorScores = new HashMap<>(); 
+        
+        for (String termo : termosValidos) {
+            ElementoLista[] listaTermo = listaInvertida.read(termo); 
+            
+            // Calcular IDF
+            int docsComTermo = listaTermo.length;
+            if (docsComTermo == 0) continue;
+            double idf = Math.log((double) totalDocumentos / docsComTermo) + 1;
+            
+            for (ElementoLista el : listaTermo) {
+                int idDoc = el.getId();
+                float tf = el.getFrequencia();
+                float score = (float)(tf * idf);
+                
+                acumuladorScores.put(idDoc, acumuladorScores.getOrDefault(idDoc, 0f) + score);
+            }
+        }
+        
+        // 4. Ordenar por score decrescente
+        resultadosOrdenados = acumuladorScores.entrySet().stream()
+            .sorted((e1, e2) -> Float.compare(e2.getValue(), e1.getValue()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+        
+    } catch (Exception e) {
+        System.out.println("Erro na busca:");
+        e.printStackTrace();
+    }
+    return resultadosOrdenados;
+}
+
 
     public String formatarPalavra (String s)
     {
