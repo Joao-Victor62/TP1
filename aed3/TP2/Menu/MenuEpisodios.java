@@ -61,8 +61,6 @@ public class MenuEpisodios {
                     //System.out.println("Opção inválida!");
                     break;
                 case 0:
-                    MenuSeries menuSerie = new MenuSeries();
-                    menuSerie.menu();
                     break;
                 default:
                     System.out.println("Opção inválida!");

@@ -2,7 +2,9 @@ package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
+import aed3.ListaInvertida.ListaInvertida;
 import aed3.TP2.Model.Atuacao;
+import aed3.ListaInvertida.ListaInvertida;
 import aed3.TP2.Model.Serie;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class ArquivoSerie extends Arquivo<Serie> {
     @Override
     public int create(Serie l) throws Exception {
         int id = super.create(l);
+
         indiceTitulo.create(new ParTituloId(l.getTitulo(), id));
         return id;
     }
