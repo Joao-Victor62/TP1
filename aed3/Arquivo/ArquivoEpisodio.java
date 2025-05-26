@@ -2,6 +2,7 @@ package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParIntInt;
+import aed3.ListaInvertida.LI;
 import aed3.TP2.Model.Episodio;
 import java.util.ArrayList;
 //import TP1.ArvoreBMais;
@@ -11,7 +12,9 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
 {
     Arquivo<Episodio> arqEpisodios;
     ArvoreBMais<ParIntInt> arvore;
-   int id_serie;
+    LI<Episodio> listaInvertida;
+
+    int id_serie;
 
     public ArquivoEpisodio() throws Exception {
         super("Episodios", Episodio.class.getConstructor());
@@ -20,6 +23,7 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
 
     public ArquivoEpisodio(int idserie) throws Exception {
         super("Episodios", Episodio.class.getConstructor());
+        listaInvertida = new LI<>("Episodios");
         arvore = new ArvoreBMais<>(ParIntInt.class.getConstructor(), 5, "dados/arvore.db");
         id_serie = idserie;
     }
@@ -28,6 +32,7 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
     public int create(Episodio e) throws Exception {
         int id = super.create(e);
         arvore.create(new ParIntInt(this.id_serie, id));
+        listaInvertida.insert(e.getNome(), e);
         return id;
     }
 

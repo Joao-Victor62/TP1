@@ -2,6 +2,7 @@ package aed3.Arquivo;
 
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
+import aed3.ListaInvertida.LI;
 import aed3.TP2.Model.Ator;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class ArquivoAtor extends Arquivo<Ator> {
     Arquivo<Ator> arqAtores;
     ArvoreBMais<ParTituloId> indiceNome;
+    LI<Ator> listaInvertida;
 
     public ArquivoAtor() throws Exception {
         super("Atores", Ator.class.getConstructor());
@@ -16,12 +18,14 @@ public class ArquivoAtor extends Arquivo<Ator> {
                 ParTituloId.class.getConstructor(),
                 5,
                 "./dados/" + "atores" + "/indiceNome.db");
+        listaInvertida = new LI<>("Atores");
     }
 
     @Override
     public int create(Ator a) throws Exception {
         int id = super.create(a);
         indiceNome.create(new ParTituloId(a.getNome(), id));
+        listaInvertida.insert(a.getNome(), a);
         return id;
     }
 
