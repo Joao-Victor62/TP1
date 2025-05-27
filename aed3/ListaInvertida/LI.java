@@ -1,6 +1,8 @@
 package aed3.ListaInvertida;
 
+import aed3.Arquivo.ArquivoSerie;
 import aed3.Interface.Registro;
+import aed3.TP2.Model.Serie;
 
 import java.nio.file.Files;
 import java.util.stream.Collectors;
@@ -56,13 +58,10 @@ public class LI<T extends Registro> {
     }
 
 
-    public List<Integer> buscar(String consulta) {
-    List<Integer> resultadosOrdenados = new ArrayList<>();
+    public List<String> buscar(String consulta) {
+    List<String> nomesOrdenados = new ArrayList<>();
     try {
-        // 1. Ler stop words
         List<String> stopWords = Files.readAllLines(Paths.get("aed3/ListaInvertida/stopwords.txt"));
-
-        // 2. Pré-processar a consulta
         String[] palavras = consulta.split(" ");
         List<String> termosValidos = new ArrayList<>();
         for (String p : palavras) {
@@ -71,39 +70,45 @@ public class LI<T extends Registro> {
                 termosValidos.add(palavraFormatada);
             }
         }
-        
-        // 3. Para cada termo, buscar lista invertida
-        int totalDocumentos = listaInvertida.numeroEntidades(); 
-        Map<Integer, Float> acumuladorScores = new HashMap<>(); 
-        
+        int totalDocumentos = listaInvertida.numeroEntidades();
+        Map<Integer, Float> acumuladorScores = new HashMap<>();
+
         for (String termo : termosValidos) {
-            ElementoLista[] listaTermo = listaInvertida.read(termo); 
-            
-            // Calcular IDF
+            ElementoLista[] listaTermo = listaInvertida.read(termo);
             int docsComTermo = listaTermo.length;
             if (docsComTermo == 0) continue;
             double idf = Math.log((double) totalDocumentos / docsComTermo) + 1;
-            
+
             for (ElementoLista el : listaTermo) {
                 int idDoc = el.getId();
                 float tf = el.getFrequencia();
                 float score = (float)(tf * idf);
-                
                 acumuladorScores.put(idDoc, acumuladorScores.getOrDefault(idDoc, 0f) + score);
             }
         }
-        
-        // 4. Ordenar por score decrescente
-        resultadosOrdenados = acumuladorScores.entrySet().stream()
+
+        List<Integer> resultadosOrdenados = acumuladorScores.entrySet().stream()
             .sorted((e1, e2) -> Float.compare(e2.getValue(), e1.getValue()))
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
-        
+
+        System.out.println("IDs encontrados (ordenados): " + resultadosOrdenados);
+
+        ArquivoSerie arquivoSerie = new ArquivoSerie();
+
+        for (int id : resultadosOrdenados) {
+            Serie serie = arquivoSerie.read(id);
+            if (serie != null) {
+                nomesOrdenados.add(serie.getNome());
+            }
+        }
+
+
     } catch (Exception e) {
         System.out.println("Erro na busca:");
         e.printStackTrace();
     }
-    return resultadosOrdenados;
+    return nomesOrdenados;
 }
 
 
