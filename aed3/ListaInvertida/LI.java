@@ -58,7 +58,7 @@ public class LI<T extends Registro> {
     }
 
 
-    public List<String> buscar(String consulta) {
+    public List<Integer> buscar(String consulta) {
     List<String> nomesOrdenados = new ArrayList<>();
     try {
         List<String> stopWords = Files.readAllLines(Paths.get("aed3/ListaInvertida/stopwords.txt"));
@@ -92,23 +92,23 @@ public class LI<T extends Registro> {
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
 
-        System.out.println("IDs encontrados (ordenados): " + resultadosOrdenados);
+        //System.out.println("IDs encontrados (ordenados): " + resultadosOrdenados);
 
-        ArquivoSerie arquivoSerie = new ArquivoSerie();
+//        ArquivoSerie arquivoSerie = new ArquivoSerie();
+//
+//        for (int id : resultadosOrdenados) {
+//            Serie serie = arquivoSerie.read(id);
+//            if (serie != null) {
+//                nomesOrdenados.add(serie.getNome());
+//            }
+//        }
 
-        for (int id : resultadosOrdenados) {
-            Serie serie = arquivoSerie.read(id);
-            if (serie != null) {
-                nomesOrdenados.add(serie.getNome());
-            }
-        }
-
-
+        return resultadosOrdenados;
     } catch (Exception e) {
         System.out.println("Erro na busca:");
         e.printStackTrace();
     }
-    return nomesOrdenados;
+    return null;
 }
 
 

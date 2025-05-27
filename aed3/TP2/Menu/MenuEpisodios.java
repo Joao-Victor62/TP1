@@ -2,8 +2,12 @@ package aed3.TP2.Menu;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import aed3.ListaInvertida.LI;
+import aed3.TP2.Model.Ator;
 import aed3.TP2.Model.Episodio;
 import aed3.Arquivo.ArquivoEpisodio;
 
@@ -35,6 +39,7 @@ public class MenuEpisodios {
             System.out.println("2 - Listar Episódio");
             System.out.println("3 - Alterar Episódio");
             System.out.println("4 - Excluir Episódio");
+            System.out.println("5 - Buscar Episódio");
             System.out.println("0 - Voltar");
 
             System.out.print("\nOpção: ");
@@ -58,6 +63,10 @@ public class MenuEpisodios {
                     break;
                 case 4:
                     excluirEpisodio();
+                    //System.out.println("Opção inválida!");
+                    break;
+                case 5:
+                    buscarEpisodioNome();
                     //System.out.println("Opção inválida!");
                     break;
                 case 0:
@@ -328,6 +337,46 @@ public class MenuEpisodios {
         }
     }
 
+    public int buscarEpisodioNome() {
+        System.out.println("\nBusca de episodio por nome");
+        System.out.print("\nNome: ");
+        String titulo = console.nextLine();  // Lê o título digitado pelo usuário
+
+        if(titulo.isEmpty())
+            return -1;
+
+        try {
+            LI<Episodio> li = new LI<>("Episodios");
+            List<Integer> listaIds = li.buscar(titulo);
+            List<Episodio> episodios = new ArrayList<>();
+            for (Integer i : listaIds) episodios.add(arqEpisodios.read(i));
+            if (!episodios.isEmpty()) {
+                int n=1;
+                for(Episodio a : episodios) {
+                    System.out.println((n++)+": "+a.getNome());
+                }
+                System.out.print("Escolha o episodio: ");
+                int o;
+                do {
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostraEpisodio(episodios.get(o-1));  // Exibe os detalhes do livro encontrado
+                return  episodios.get(o-1).getId();
+            } else {
+                System.out.println("Nenhum episodio encontrado.");
+            }
+        } catch(Exception e) {
+            System.out.println("Erro do sistema. Não foi possível buscar epidosio por titulo!");
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
 
     public void povoar() throws Exception {

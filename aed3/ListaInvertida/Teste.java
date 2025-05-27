@@ -19,7 +19,6 @@ public class Teste {
         }
 
         //teste para o buscar
-        List<String> resultado = li.buscar("hora da programacao na intruducao");//colcoar a frase q vais er testada
-        System.out.println("Resultado da busca: " + resultado);
+        li.buscar("hora da programacao na intruducao");//colcoar a frase q vais er testada
     }
 }

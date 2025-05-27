@@ -1,4 +1,6 @@
 package aed3.TP2.Menu;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import aed3.Arquivo.ArquivoAtuacao;
@@ -6,6 +8,7 @@ import aed3.Arquivo.ArquivoEpisodio;
 import aed3.Arquivo.ArquivoSerie;
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
+import aed3.ListaInvertida.LI;
 import aed3.TP2.Model.Atuacao;
 import aed3.TP2.Model.Episodio;
 import aed3.TP2.Model.Serie;
@@ -80,6 +83,44 @@ public class MenuSeries {
         menuAtorSerie.menu();
     }
 
+//    public int buscarSerieTitulo() {
+//        System.out.println("\nBusca de série por título");
+//        System.out.print("\nTítulo: ");
+//        String titulo = console.nextLine();  // Lê o título digitado pelo usuário
+//
+//        if(titulo.isEmpty())
+//            return -1;
+//
+//        try {
+//            Serie[] series = arqSeries.readTitulo(titulo);  // Chama o método de leitura da classe Arquivo
+//            if (series.length>0) {
+//                int n=1;
+//                for(Serie l : series) {
+//                    System.out.println((n++)+": "+l.getTitulo());
+//                }
+//                System.out.print("Escolha o serie: ");
+//                int o;
+//                do {
+//                    try {
+//                        o = Integer.valueOf(console.nextLine());
+//                    } catch(NumberFormatException e) {
+//                        o = -1;
+//                    }
+//                    if(o<=0 || o>n-1)
+//                        System.out.println("Escolha um número entre 1 e "+(n-1));
+//                }while(o<=0 || o>n-1);
+//                mostrarSerie(series[o-1]);  // Exibe os detalhes do livro encontrado
+//                return series[o-1].id;
+//            } else {
+//                System.out.println("Nenhuma serie encontrado.");
+//            }
+//        } catch(Exception e) {
+//            System.out.println("Erro do sistema. Não foi possível buscar serie por titulo!");
+//            e.printStackTrace();
+//        }
+//        return -1;
+//    }
+
     public int buscarSerieTitulo() {
         System.out.println("\nBusca de série por título");
         System.out.print("\nTítulo: ");
@@ -89,8 +130,11 @@ public class MenuSeries {
             return -1;
 
         try {
-            Serie[] series = arqSeries.readTitulo(titulo);  // Chama o método de leitura da classe Arquivo
-            if (series.length>0) {
+            LI<Serie> li = new LI<>("Series");
+            List<Integer> listaIds = li.buscar(titulo);
+            List<Serie> series = new ArrayList<>();
+            for (Integer i : listaIds) series.add(arqSeries.read(i));
+            if (!series.isEmpty()) {
                 int n=1;
                 for(Serie l : series) {
                     System.out.println((n++)+": "+l.getTitulo());
@@ -106,8 +150,8 @@ public class MenuSeries {
                     if(o<=0 || o>n-1)
                         System.out.println("Escolha um número entre 1 e "+(n-1));
                 }while(o<=0 || o>n-1);
-                mostrarSerie(series[o-1]);  // Exibe os detalhes do livro encontrado
-                return series[o-1].id;
+                mostrarSerie(series.get(o-1));  // Exibe os detalhes do livro encontrado
+                return series.get(o-1).id;
             } else {
                 System.out.println("Nenhuma serie encontrado.");
             }
@@ -117,6 +161,7 @@ public class MenuSeries {
         }
         return -1;
     }
+
 
     public void buscarSerieEEp() {
        int id = buscarSerieTitulo();

@@ -1,10 +1,12 @@
 package aed3.TP2.Menu;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import aed3.Arquivo.ArquivoAtor;
 import aed3.ArvoreB.ArvoreBMais;
 import aed3.ArvoreB.ParTituloId;
+import aed3.ListaInvertida.LI;
 import aed3.TP2.Model.Ator;
 import aed3.TP2.Model.Atuacao;
 import aed3.Arquivo.ArquivoAtuacao;
@@ -76,18 +78,63 @@ public class MenuAtorPrincipal {
         } while (opcao != 0);
     }
 
+//    public int buscarAtorNome() {
+//        System.out.println("\nBusca de ator por nome");
+//        System.out.print("\nNome: ");
+//        String nome = console.nextLine();
+//
+//        if(nome.isEmpty())
+//            return -1;
+//
+//        try {
+//            Ator[] atores = arqAtor.readNome(nome);
+//            if (atores.length > 0) {
+//                int n = 1;
+//                for(Ator a : atores) {
+//                    System.out.println((n++)+": "+a.getNome());
+//                }
+//                System.out.print("Escolha o ator: ");
+//                int o;
+//                do {
+//                    try {
+//                        o = Integer.valueOf(console.nextLine());
+//                    } catch(NumberFormatException e) {
+//                        o = -1;
+//                    }
+//                    if(o <= 0 || o > n - 1)
+//                        System.out.println("Escolha um número entre 1 e "+(n - 1));
+//                } while(o <= 0 || o > n - 1);
+//                mostrarAtor(atores[o - 1]);
+//
+//
+//
+//
+//                return atores[o - 1].id;
+//            } else {
+//                System.out.println("Nenhum ator encontrado.");
+//            }
+//        } catch(Exception e) {
+//            System.out.println("Erro do sistema. Não foi possível buscar ator por nome!");
+//            e.printStackTrace();
+//        }
+//        return -1;
+//    }
+
     public int buscarAtorNome() {
         System.out.println("\nBusca de ator por nome");
         System.out.print("\nNome: ");
-        String nome = console.nextLine();
+        String titulo = console.nextLine();  // Lê o título digitado pelo usuário
 
-        if(nome.isEmpty())
+        if(titulo.isEmpty())
             return -1;
 
         try {
-            Ator[] atores = arqAtor.readNome(nome);
-            if (atores.length > 0) {
-                int n = 1;
+            LI<Ator> li = new LI<>("Atores");
+            List<Integer> listaIds = li.buscar(titulo);
+            List<Ator> atores = new ArrayList<>();
+            for (Integer i : listaIds) atores.add(arqAtor.read(i));
+            if (!atores.isEmpty()) {
+                int n=1;
                 for(Ator a : atores) {
                     System.out.println((n++)+": "+a.getNome());
                 }
@@ -99,15 +146,11 @@ public class MenuAtorPrincipal {
                     } catch(NumberFormatException e) {
                         o = -1;
                     }
-                    if(o <= 0 || o > n - 1)
-                        System.out.println("Escolha um número entre 1 e "+(n - 1));
-                } while(o <= 0 || o > n - 1);
-                mostrarAtor(atores[o - 1]);
-
-
-
-
-                return atores[o - 1].id;
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarAtor(atores.get(o-1));  // Exibe os detalhes do livro encontrado
+                return atores.get(o-1).id;
             } else {
                 System.out.println("Nenhum ator encontrado.");
             }

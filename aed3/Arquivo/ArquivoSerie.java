@@ -49,6 +49,11 @@ public class ArquivoSerie extends Arquivo<Serie> {
     }
 
     @Override
+    public Serie read(int id) throws Exception {
+        return super.read(id);
+    }
+
+    @Override
     public boolean delete(int id) throws Exception {
         Serie l = read(id);   // na superclasse
         if(l!=null) {

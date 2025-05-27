@@ -57,6 +57,11 @@ public class ArquivoEpisodio extends Arquivo<Episodio>
     }
 
     @Override
+    public Episodio read(int id) throws Exception {
+        return super.read(id);
+    }
+
+    @Override
     public boolean delete(int id) throws Exception {
         Episodio l = read(id);   // na superclasse
         if(l!=null) {

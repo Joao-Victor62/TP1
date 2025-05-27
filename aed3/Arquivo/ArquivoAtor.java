@@ -29,6 +29,11 @@ public class ArquivoAtor extends Arquivo<Ator> {
         return id;
     }
 
+    @Override
+    public Ator read(int id) throws Exception {
+        return super.read(id);
+    }
+
     public Ator[] readNome(String nome) throws Exception {
         if (nome.length() == 0)
             return null;
